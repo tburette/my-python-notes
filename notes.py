@@ -2,9 +2,6 @@
 class detail
 https://docs.python.org/3/reference/datamodel.html?highlight=__new__#object.__new__
 
-__slots__
-https://docs.python.org/3/reference/datamodel.html?highlight=__new__#slots
-
 metaclass,..
 https://docs.python.org/3/reference/datamodel.html#metaclasses
 https://pyvideo.org/pycon-us-2016/dustin-ingram-what-is-and-what-can-be-an-exploration-from-type-to-metaclasses-pycon-2016.html
@@ -970,11 +967,15 @@ C().method()
 C.method()
 
 ## __slots__
+a string, iterable (of strings)
 instead of dict, pointer for attributes
-flywheight pattern
+__dict__ __weakref__ won't be created
+slots attributes implemented using descriptors
 saves memory
 side effect : can't add attributes
-if a class has __slots__ subclasses will do not break subclasses!
+if a superclass has no __slots__ : there wil be a __dict__
+if a subclass has no __slots__ and it is instanciated : there wil be a __dict__
+
 
 ## Python class gotchas
 # from Luciano Ramalho - Pythonic Objects: idiomatic OOP in Python - PyCon 2019
@@ -1362,6 +1363,7 @@ class NamePrinter:
 (Built-in) usage:
 -super()
 -static/class methods
+-attributes when using __slots__
 -methods
  Bound method.
  Used to transform function into method
@@ -1667,6 +1669,7 @@ class A:
     # Reserves space for the variables
     # saves space, prevent creation of new attributes
     # warning with inheritance
+    # see slots section
     __slots__ = ['a', 'b']
 
     # Container
